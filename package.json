@@ -1,0 +1,51 @@
+{
+  "name": "registro-congreso",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Registro, pagos y recepción de congresistas sin conexión",
+  "author": "Registro Congreso",
+  "main": "dist/main/main.js",
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "typecheck": "tsc --noEmit",
+    "build": "npm run typecheck && vite build && node scripts/build.mjs",
+    "start": "electron .",
+    "test": "tsx --test tests/store.test.ts",
+    "test:e2e": "npm run build && node tests/desktop.mjs",
+    "dist": "npm run build && electron-builder --win nsis --x64"
+  },
+  "dependencies": {
+    "exceljs": "^4.4.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "zod": "^4.1.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.0",
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "electron": "^41.0.0",
+    "electron-builder": "^26.0.0",
+    "esbuild": "^0.25.0",
+    "tsx": "^4.20.0",
+    "typescript": "~5.9.3",
+    "vite": "^7.0.0"
+  },
+  "build": {
+    "appId": "mx.congreso.registro",
+    "productName": "Registro Congreso",
+    "directories": { "output": "release" },
+    "files": ["dist/**/*", "package.json"],
+    "asarUnpack": ["node_modules/exceljs/**/*"],
+    "win": { "target": "nsis", "signAndEditExecutable": false },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "artifactName": "Registro-Congreso-${version}-Setup.${ext}"
+    }
+  }
+}
